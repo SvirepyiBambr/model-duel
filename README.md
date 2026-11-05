@@ -7,7 +7,7 @@ is a separate model call — you see the board, the chosen column, and the model
 comment. A referee in the browser validates every move and decides the winner; the models
 only choose columns.
 
-Made with [pollinations.ai](https://pollinations.ai/?ref=badge).
+[![Made with pollinations.ai](https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg)](https://pollinations.ai/?ref=badge)
 
 ![Model Duel in action](https://raw.githubusercontent.com/SvirepyiBambr/model-duel/main/screenshot.png)
 
