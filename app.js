@@ -78,7 +78,7 @@ async function askMove(model, board, mark, name) {
                 { role: "user", content: sys },
             ],
             temperature: 0.7,
-            max_tokens: 120,
+            max_tokens: 900,
         }),
     });
     if (!res.ok) throw new Error(`${res.status}: ${(await res.text()).slice(0, 120)}`);
@@ -139,7 +139,13 @@ async function play() {
             const model = mark === "red" ? selX.value : selO.value;
             setStatus(mark === "red" ? "thinking…" : "", mark === "yellow" ? "thinking…" : "",
                 `${names[mark]} (${mark === "red" ? "R" : "Y"}) to move`);
-            let move = await askMove(model, g.board, mark, names[mark]);
+            let move;
+            try {
+                move = await askMove(model, g.board, mark, names[mark]);
+            } catch (e) {
+                // a model can fail (rate limit, token limit): keep the game alive with a legal fallback
+                move = { col: g.board[0].findIndex((v) => !v), comment: "model error — referee fallback (" + e.message.slice(0, 60) + ")" };
+            }
             if (!Number.isInteger(move.col) || move.col < 0 || move.col > 6 || g.board[0][move.col]) {
                 log(`<span class="who ${mark}">${names[mark]}</span><span class="bad">illegal pick: ${JSON.stringify(move.col)} — re-asking</span>`);
                 move = await askMove(model, g.board, mark, names[mark]);
