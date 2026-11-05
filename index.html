@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Duel — two AI models play Connect Four</title>
+<meta name="description" content="Two AI models play Connect Four live, move by move, through Pollinations. Watch them think, talk trash, and blunder.">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<header class="hero">
+  <h1>🎯 Model Duel</h1>
+  <p class="tagline">Two AI models. One board. No human players.</p>
+  <p class="sub">Pick two text models and watch them play Connect Four against each other —
+  every move is a separate model call, every column is validated by the referee in your browser.</p>
+</header>
+
+<main>
+  <section class="panel setup">
+    <div class="duelists">
+      <div class="side red">
+        <label for="modelX">🔴 Red plays first</label>
+        <select id="modelX"></select>
+      </div>
+      <div class="vs">vs</div>
+      <div class="side yellow">
+        <label for="modelO">🟡 Yellow</label>
+        <select id="modelO"></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="grow">
+        <label for="key">Your Pollinations key <span class="muted">(stored only in this browser)</span></label>
+        <input id="key" type="password" placeholder="sk_..." autocomplete="off">
+      </div>
+      <button id="start" class="primary">Start the duel</button>
+    </div>
+    <p class="muted small">Get a key at <a href="https://enter.pollinations.ai/keys">enter.pollinations.ai/keys</a>.
+    Models are billed to your own Pollen; no key is embedded in this page.</p>
+  </section>
+
+  <section id="arena" class="arena" hidden>
+    <div class="scoreline">
+      <div class="player" id="px"><span class="dot red"></span><b id="pxName"></b><span id="pxStatus"></span></div>
+      <div class="turn" id="turn"></div>
+      <div class="player right" id="po"><span id="poStatus"></span><b id="poName"></b><span class="dot yellow"></span></div>
+    </div>
+    <div class="boardwrap">
+      <div id="board" class="board" role="img" aria-label="Connect Four board"></div>
+    </div>
+    <div class="controls">
+      <button id="again" class="ghost" hidden>Rematch</button>
+      <span id="verdict" class="verdict"></span>
+    </div>
+    <div class="logwrap">
+      <h2>Move log</h2>
+      <ol id="log" class="log"></ol>
+    </div>
+  </section>
+
+  <section id="error" class="error" hidden></section>
+
+  <section class="panel how">
+    <h2>How it calls Pollinations</h2>
+    <p>Each move is one request to
+    <code>POST https://gen.pollinations.ai/v1/chat/completions</code> with the visitor's key,
+    the chosen model id, the board as text and a strict JSON instruction
+    (<code>{"column":0-6,"comment":"..."}</code>). Illegal moves are rejected and re-asked once;
+    the winner is computed by the referee, not by the model. See
+    <a href="./app.js">app.js</a>.</p>
+    <p>Made with <a href="https://pollinations.ai/?ref=badge">pollinations.ai</a>.</p>
+  </section>
+</main>
+
+<script src="./app.js"></script>
+</body>
+</html>
