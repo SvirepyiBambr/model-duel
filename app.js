@@ -145,7 +145,11 @@ async function play() {
             }
             if (!Number.isInteger(move.col) || move.col < 0 || move.col > 6 || g.board[0][move.col]) {
                 log(`<span class="who ${mark}">${names[mark]}</span><span class="bad">illegal pick: ${JSON.stringify(move.col)} — re-asking</span>`);
-                move = await askMove(model, g.board, mark, names[mark]);
+                try {
+                    move = await askMove(model, g.board, mark, names[mark]);
+                } catch (e) {
+                    move = { col: -1, comment: "model error — referee fallback (" + e.message.slice(0, 60) + ")" };
+                }
                 if (!Number.isInteger(move.col) || move.col < 0 || move.col > 6 || g.board[0][move.col]) {
                     // referee fallback: first legal column
                     move.col = g.board[0].findIndex((v) => !v);
