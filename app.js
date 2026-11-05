@@ -3,13 +3,10 @@ const API = "https://gen.pollinations.ai";
 const COLS = 7, ROWS = 6;
 const MODELS = [
     { id: "openai/gpt-5.4-nano", label: "GPT-5.4 nano" },
-    { id: "deepseek/deepseek-v4.1-flash", label: "DeepSeek V4.1 Flash" },
-    { id: "x-ai/grok-4.6", label: "Grok 4.6" },
-    { id: "mistralai/mistral-large-3", label: "Mistral Large 3" },
-    { id: "meta/llama-3.3-70b-instruct", label: "Llama 3.3 70B" },
     { id: "openai/gpt-5.4-mini", label: "GPT-5.4 mini" },
-    { id: "nvidia/nemotron-3.5-lightning", label: "Nemotron 3.5 Lightning" },
-    { id: "minimax/minimax-m3.1-flash", label: "MiniMax M3.1 Flash" },
+    { id: "meta/llama-3.3-70b-instruct", label: "Llama 3.3 70B" },
+    { id: "qwen/qwen3.8-2.4t-a95b", label: "Qwen 3.8" },
+    { id: "mistralai/mistral-large-3", label: "Mistral Large 3" },
 ];
 const $ = (id) => document.getElementById(id);
 const keyEl = $("key"), selX = $("modelX"), selO = $("modelO");
